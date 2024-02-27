@@ -14,7 +14,7 @@ func AppWithRoutes() *fiber.App {
 	}))
 
 	// Routes for 3rd party API integration
-	app.Get("/api/books", controller.ReadBooksHandler)
+	app.Get("/books", controller.ReadBooksHandler)
 
 	return app
 }

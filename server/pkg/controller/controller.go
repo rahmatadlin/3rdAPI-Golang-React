@@ -47,21 +47,35 @@ func ReadBooksHandler(c *fiber.Ctx) error {
 		if !ok {
 			continue
 		}
-
+	
 		authors, ok := volumeInfo["authors"].([]interface{})
 		var author string
 		if ok && len(authors) > 0 {
 			author = authors[0].(string)
 		}
-
+	
+		var rating float64
+		if avgRating, ok := volumeInfo["averageRating"].(float64); ok {
+			rating = avgRating
+		} else {
+			rating = 0 // Or any default value you prefer
+		}
+	
+		var previewURL string
+		if imageLinks, ok := volumeInfo["imageLinks"].(map[string]interface{}); ok {
+			if thumbnail, ok := imageLinks["thumbnail"].(string); ok {
+				previewURL = thumbnail
+			}
+		}
+	
 		books = append(books, Book{
 			ID:      book["id"].(string),
 			Title:   volumeInfo["title"].(string),
 			Author:  author,
-			Rating:  volumeInfo["averageRating"].(float64),
-			Preview: volumeInfo["imageLinks"].(map[string]interface{})["thumbnail"].(string),
+			Rating:  rating,
+			Preview: previewURL,
 		})
 	}
-
+	
 	return c.JSON(books)
 }
