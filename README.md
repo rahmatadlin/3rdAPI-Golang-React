@@ -16,7 +16,7 @@ go test -v
 npm create vite@latest
 
 ## Install dependencies
-npm i @mantine/hooks @mantine/core swr @primer/octicons-react
+npm i 
 
 ## Run Server
 go run main.go
